@@ -29,3 +29,23 @@ por la propiedad de imparidad de la función seno. De esta manera, la onda con l
 ![Primeros 10 bits codificados en BPSK](https://github.com/Santihv/Tarea4/blob/master/señal.png)
 
 ### 2) Calcular la potencia promedio de la señal modulada generada.
+
+Para calcular la potencia promedio de la señal primero es necesario calcular la potencia instantánea, donde esta sería el cuadrado de la señal:
+
+<img src="https://render.githubusercontent.com/render/math?math=P(t) = \sin^2(2 \pi f t)">
+
+La potencia promedio sería la promedio de la suma de cada uno de los valores cuadráticos medios de la potencias, que es lo mismo a la integral de *P(t)* desde *-T* a *T* entre dos veces el periodo:
+
+<img src="https://render.githubusercontent.com/render/math?math=P_{prom} = \frac{1}{2T} \displaystyle\int_{-T}^{T} P(t) dt = \frac{1}{2T} \displaystyle\int_{-T}^{T} \sin^2(2 \pi f t) dt">
+
+Este proceso de integración se efectuó con `integrate.trapz` perteneciente a la librería `scipy` y se obtuvo **Pprom = 0,49000098 W**.
+
+### 3) Simular un canal ruidoso del tipo AWGN (ruido aditivo blanco gaussiano) con una relación señal a ruido (SNR) desde -2 hasta 3 dB.
+
+Para generar el ruido se necesita establecer su potencia, la cual se expresa como función del *SNR*:
+
+<img src="https://render.githubusercontent.com/render/math?math=P_n = \frac{P_{prom}}{10^{\frac{SNR}{10}}} = \sigma^2">
+
+Como el ruido es AWGN este se genera con una distribución gaussiana de números aleatorios cuya desviación estándar corresponde a la raíz cuadrada de su potencia. Posteriormente, para simular que la señal emitida es distorsionada por el ruido este se le suma a la señal BPSK antes generada. Las ondas ruidosas generadas para los distintos valores de SNR se muestran a continuación:
+
+![Primeros 10 bits codificados en BPSK](https://github.com/Santihv/Tarea4/blob/master/señal.png)
