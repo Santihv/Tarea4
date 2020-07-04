@@ -34,7 +34,7 @@ Para calcular la potencia promedio de la señal primero es necesario calcular la
 
 <img src="https://render.githubusercontent.com/render/math?math=P(t) = \sin^2(2 \pi f t)">
 
-La potencia promedio sería la promedio de la suma de cada uno de los valores cuadráticos medios de la potencias, que es lo mismo a la integral de *P(t)* desde *-T* a *T* entre dos veces el periodo:
+La potencia promedio sería el promedio de la suma de cada uno de los valores cuadráticos medios de las potencias, que es lo mismo a la integral de *P(t)* desde *-T* a *T* entre dos veces el periodo:
 
 <img src="https://render.githubusercontent.com/render/math?math=P_{prom} = \frac{1}{2T} \displaystyle\int_{-T}^{T} P(t) dt = \frac{1}{2T} \displaystyle\int_{-T}^{T} \sin^2(2 \pi f t) dt">
 
@@ -48,4 +48,55 @@ Para generar el ruido se necesita establecer su potencia, la cual se expresa com
 
 Como el ruido es AWGN este se genera con una distribución gaussiana de números aleatorios cuya desviación estándar corresponde a la raíz cuadrada de su potencia. Posteriormente, para simular que la señal emitida es distorsionada por el ruido este se le suma a la señal BPSK antes generada. Las ondas ruidosas generadas para los distintos valores de SNR se muestran a continuación:
 
-![Primeros 10 bits codificados en BPSK](https://github.com/Santihv/Tarea4/blob/master/señal.png)
+![Rx con SNR = -2 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D-2dB.png)
+
+![Rx con SNR = -1 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D-1dB.png)
+
+![Rx con SNR = 0 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D0dB.png)
+
+![Rx con SNR = 1 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D1dB.png)
+
+![Rx con SNR = 2 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D2dB.png)
+
+![Rx con SNR = 3 dB](https://github.com/Santihv/Tarea4/blob/master/Rx_SNR%3D3dB.png)
+
+### 4) Graficar la densidad espectral de potencia de la señal con el método de Welch (SciPy), antes y después del canal ruidoso.
+
+El espectro de densidad de potencia de una señal aleatoria describe cómo se distribuye la potencia en todas las frecuencias. Para obtenerlo se utilizó el método de Welch del módulo `signal` de `scipy`. El gráfico de la PSD de la señal antes de pasar por el canal AWGN sería:
+
+![PSD de la señal antes del canal AWGN](https://github.com/Santihv/Tarea4/blob/master/PSD_antes.png)
+
+La PSD de la señal después de pasar por el canal AWGN para cada *SNR* requerido se muestra gráficamente a continuación:
+
+![PSD de la señal después del canal AWGN con SNR = -2 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D-2dB.png)
+
+![PSD de la señal después del canal AWGN con SNR = -1 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D-1dB.png)
+
+![PSD de la señal después del canal AWGN con SNR = 0 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D0dB.png)
+
+![PSD de la señal después del canal AWGN con SNR = 1 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D1dB.png)
+
+![PSD de la señal después del canal AWGN con SNR = 2 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D2dB.png)
+
+![PSD de la señal después del canal AWGN con SNR = 3 dB](https://github.com/Santihv/Tarea4/blob/master/PSD_despu%C3%A9s_SNR%3D3dB.png)
+
+De estos resultados se aprecia cómo antes de pasar por el canal ruidoso la potencia se distribuye en todos los armónicos de la onda portadora, mientras que después de pasar por el canal solo se distribuye en la frecuencia fundamental mientras que los armónicos son mayormente atenuados al aumentar el SNR.
+
+### 5) Demodular y decodificar la señal y hacer un conteo de la tasa de error de bits (BER, bit error rate) para cada nivel SNR.
+
+La decodificación de la señal se lleva a cabo por el método de detección de energía. Para esto se calcula lo que se llamará como *pseudo energía* como la suma (no integral) de cada punto en un periodo de la onda portadora al cuadrado (la cual sería conocida en un sistema real) y la energía en cada periodo de la onda recibida *Rx* de la misma manera. Si la energía en un periodo de Rx es mayor a la mitad de la pseudo energía entonces se decodifica como un 1, si no se decodificará como un 0. La relación de errores por bit *BER* (*bit error rate*) corresponde a la relación porcentual entre la cantidad de errores en la señal recibida respecto de la enviada y la cantidad de bits totales, que en este caso son 10000. Los resultados para cada valor de *SNR* se muestran en el siguiente cuadro:
+
+SNR | Errores | BER 
+--------- | ------- | ----- 
+-2 dB | 11 | 0,11% 
+-1 dB | 3 | 0,03% 
+ 0 dB | 1 | 0,01% 
+ 1 dB | 0 | 0%
+ 2 dB | 0 | 0%
+ 3 dB | 0 | 0%
+ 
+ ### 6) Graficar BER versus SNR.
+ 
+ La representación gráfica de los datos anteriores sería:
+ 
+ ![BER contra SNR](https://github.com/Santihv/Tarea4/blob/master/BER_vs_SNR.png)
